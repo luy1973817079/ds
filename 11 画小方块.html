@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function (){
+            var oDiv = document.getElementsByClassName("box")[0];
+            oDiv.onmousedown = function (ev){
+                var ev = window.event || ev;
+                var top = ev.clientY - oDiv.offsetTop;
+                var left = ev.clientX - oDiv.offsetLeft;
+                //1.按下去，会多一个div，这个div的起点就是按下去的位置
+                var child = document.createElement("div");
+                oDiv.appendChild(child);
+
+               oDiv.onmousemove = function (ev){
+                   var ev = window.event || ev;
+                   var newtop = ev.clientY - oDiv.offsetTop;
+                   var newleft = ev.clientX - oDiv.offsetLeft;
+
+                   var y = (newtop-top) > 0 ? top : newtop;
+                   var x = (newleft-left) > 0 ? left : newleft;
+                   child.style.top = y + "px";
+                   child.style.left = x + "px";
+                   child.style.width = Math.abs((newleft - left)) + "px";
+                   child.style.height = Math.abs((newtop - top)) + "px";
+
+
+
+               }
+                return false;
+
+            }
+            document.onmouseup = function (){
+                oDiv.onmousemove = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="box">
+    </div>
+    <p>在上方绘制小方块</p>
+    <style>
+        .box{width: 500px;height: 500px;border: 1px solid #ccc;position: relative;margin: 40px auto;}
+        p{text-align: center;}
+        .box div{border: 1px solid green;position: absolute}
+    </style>
+</body>
+</html>
